@@ -1,0 +1,15 @@
+---
+dependencies: []
+
+galaxy_info:
+  author: 'Steven Acres'
+  description: 'common role'
+  company: 'SwattekSystems'
+  license: 'BSDv3'
+  min_ansible_version: '1.7.1'
+  platforms:
+    - name: EL
+      versions:
+        - 7
+  categories: []
+

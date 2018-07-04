@@ -1,0 +1,11 @@
+---
+
+#!/bin/bash
+
+# test: Test common
+# Copyright (C) 2015 Steven Acres <steven@swatteksystems.com>
+
+. "lib/test"
+
+assert_playbook_runs
+assert_playbook_idempotent

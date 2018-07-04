@@ -1,0 +1,54 @@
+---
+# CentOS 7 Stack Amsible
+# Author: Sathiyarajan M
+# Version: 1.0
+
+- name: Installing docker in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   - docker
+
+- name: Installing required linux tools in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   - tool-box
+
+- name: Installing NTPD in CentOS
+  hosts: all
+  remote_user: root
+
+  roles:
+   - ntp
+
+- name: Apply for common configuration to all the nodes
+  hosts: all
+  remote_user: root
+
+  roles:
+   - common
+   
+- name: deploy MySQL and configure databases
+  hosts: dbservers
+  remote_user: root
+   
+  roles:
+   - db
+   
+- name: deploy Apache, PHP and configure website code
+  hosts: webservers
+  remote_user: root
+  
+  roles:
+   - web
+
+- name: deploy nginx with reverse proxy in it
+  hosts: webservers
+  remote_user: root
+
+  roles:
+   - nginx
+

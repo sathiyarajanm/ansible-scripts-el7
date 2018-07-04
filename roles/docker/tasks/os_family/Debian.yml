@@ -1,0 +1,36 @@
+---
+- name: Install dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python
+    - curl
+    - apt-transport-https
+    - ca-certificates
+    - gnupg2
+    - software-properties-common
+
+- name: depends for Ubuntu
+  include: "Ubuntu.yml"
+  when: ansible_distribution == "Ubuntu"
+
+- name: depends for Debian
+  include: "Deb.yml"
+  when: ansible_distribution == "Debian"
+
+- name: install docker
+  apt:
+    name: docker-ce
+    update_cache: yes
+    state: present
+
+- name: install pip
+  shell: curl -sSL https://bootstrap.pypa.io/get-pip.py | python
+
+- name: install docker-py and docker-compose
+  pip:
+    name: docker-py
+  with_items:
+    - docker-py
+    - docker-compose
