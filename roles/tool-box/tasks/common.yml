@@ -1,0 +1,47 @@
+---
+# tasks file for common
+  - name: Add hosts file
+    template: src=hosts.j2 dest=/etc/hosts mode=644 owner=root group=root
+
+  - name: Add yum.conf template to all hosts
+    template: src=yum.conf.j2 dest=/etc/yum.conf mode=0644 owner=root group=root
+
+  - name: Clear yum cache
+    command: yum clean all
+
+  - name: Enable and start rsyslog
+    service: name=rsyslog state=started enabled=true
+
+  - name: Ensure buggy yum fastest-mirror plugin is *disabled*
+    lineinfile: dest=/etc/yum/pluginconf.d/fastestmirror.conf regexp=enabled= line=enabled=0
+# amend below to include 'common' pkgs for all boxen
+  - name: Install git, lsof, nc, bind-utils, iptables-services
+    yum: name={{ item }} state=present
+    with_items:
+      - "git"
+      - "vim-enhanced"
+      - "lynx"
+      - "nmap"
+      - "telnet"
+      - "wget"
+      - "p7zip"
+      - "yum-utils"
+
+  - name: Install sudoers
+    template: src=sudoers.j2 dest=/etc/sudoers owner=root group=root mode=440
+
+  - name: Ensure ansible user created
+    user: name={{ ansible_user }} groups=wheel append=yes
+
+  - name: Ensure ansible's ~/.ssh dir exists
+    file: path=/home/{{ ansible_user }}/.ssh state=directory owner={{ ansible_user }} group={{ ansible_user }} mode=700
+
+  - name: Add authorized_keys for ansible, all hosts
+    authorized_key: user={{ ansible_user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+  - name: audit template
+    template: src=audit.rules.j2 dest=/etc/audit/rules.d/audit.rules.j2 owner=root group=root mode=640
+    notify: restart auditd
+
+  - name: enable auditd
+    service: name=auditd state=started enabled=true

@@ -1,0 +1,11 @@
+---
+# handlers file for common
+
+- name: restart iptables
+  service: name=iptables state=restarted
+
+- name: reload sysctl
+  shell: "/sbin/sysctl -p"
+
+#- name: restart auditd
+#  service: name=auditd state=restarted

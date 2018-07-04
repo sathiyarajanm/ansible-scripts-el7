@@ -1,0 +1,7 @@
+---
+# tasks file for common main
+  - include: ansible.yml
+    when: "'ansible' in group_names"
+
+  - include: common.yml
+    when: "'ansible' not in group_names"

@@ -1,0 +1,65 @@
+---
+# tasks file for ansible.yml common
+  - name: Add hosts file
+    template: src=ansible_hosts.j2 dest=inventory/{{ inv_hosts }}
+
+  - name: Add yum.conf template
+    template: src=yum.conf.j2 dest=/etc/yum.conf mode=0644 owner=root group=root
+
+  - name: Clear yum cache
+    command: yum clean all
+
+  - name: Enable and start rsyslog
+    service: name=rsyslog state=started enabled=true
+
+  - name: Ensure buggy yum fastest-mirror plugin is *disabled*
+    lineinfile: dest=/etc/yum/pluginconf.d/fastestmirror.conf regexp=enabled= line=enabled=0
+
+  - name: Install sudoers
+    template: src=sudoers.j2 dest=/etc/sudoers owner=root group=root mode=440
+
+# The following and associated tasks also 'enables' redis as fact engine, which requires ansible >= 1.8.2
+  - name: Install ansible and mgmt pkgs on ansible box
+    yum: name={{ item }} state=present
+    with_items:
+      - ansible
+      - fping
+      - python-pip
+      - nmap
+      - git
+      - facter
+      - redis
+      - sshpass
+
+  - name: start redis on ansible box
+    service: name=redis state=started enabled=yes
+
+  - name: pip install redis (libs)
+    pip: name=redis
+
+# Next task *should* have been instantiated via initial provision of the box, if not the case, uncomment and adjust accordingly
+
+#  - name: Ensure ansible user created on mgmt box w/ key creation
+#    user: name=ansible groups=wheel append=yes generate_ssh_key=yes ssh_key_file=.ssh/id_rsa
+
+  - name: Add authorized_keys for ansible, ansible host
+    authorized_key: user={{ ansible_user }} key="{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+  - name: Add .bash_profile for ansible user on ansible box
+    template: src=ansible-bash_profile.j2 dest=/home/{{ ansible_user }}/.bash_profile owner={{ ansible_user }} group={{ ansible_user }}
+
+  - name: Add .ssh/environment for ansible on ansible box
+    template: src=environment.j2 dest=/home/{{ ansible_user }}/.ssh/environment owner={{ ansible_user }} group={{ ansible_user }} mode=600
+
+  - name: Add ansible.cfg template to ansible box
+    template: src=ansible.cfg.j2 dest=/etc/ansible/ansible.cfg owner=root group=root mode=644
+
+  - name: Add .bash_profile for root user
+    template: src=root-bash_profile.j2 dest=/root/.bash_profile owner=root group=root
+
+  - name: audit template
+    template: src=audit.rules.j2 dest=/etc/audit/rules.d/audit.rules.j2 owner=root group=root mode=640
+    notify: restart auditd
+
+  - name: enable auditd
+    service: name=auditd state=started enabled=true

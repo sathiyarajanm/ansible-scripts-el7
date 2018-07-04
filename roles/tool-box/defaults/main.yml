@@ -1,0 +1,6 @@
+---
+# defaults file for common
+
+inv_hosts: 'inventory/hosts'
+
+ansible_user: []
