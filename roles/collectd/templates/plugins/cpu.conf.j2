@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+#
+LoadPlugin cpu
+
+<Plugin cpu>
+  ReportByCpu {{ collectd_plugin_cpu_reportbycpu }}
+  ReportByState {{ collectd_plugin_cpu_reportbystate }}
+  ValuesPercentage {{ collectd_plugin_cpu_valuespercentage }}
+</Plugin>

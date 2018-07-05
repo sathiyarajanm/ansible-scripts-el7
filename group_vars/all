@@ -11,3 +11,9 @@ openldap_server_app_path: "/etc/openldap/"
 openldap_server_user: ldap
 
 es_listen_external: false
+
+fluentd_syslog_port: 42185
+fluentd_http_port: 9919
+fluentd_debug_port: 24230
+
+

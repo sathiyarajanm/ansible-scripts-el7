@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+#
+LoadPlugin memory
+
+<Plugin memory>
+  ValuesAbsolute {{ collectd_plugin_memory_valuesabsolute }}
+  ValuesPercentage {{ collectd_plugin_memory_valuespercentage }}
+</Plugin>
