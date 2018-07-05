@@ -1,5 +1,5 @@
 ---
-# CentOS 7 Stack Amsible
+# CentOS 7 Stack Ansible
 # Author: Sathiyarajan M
 # Version: 1.0
 
@@ -9,7 +9,6 @@
 
   roles:
    -  collectd
-
 
 - name: Installing filebeat in CentOS 7
   hosts: dbservers
@@ -108,4 +107,3 @@
 
 #  roles:
 #   - nginx
-
