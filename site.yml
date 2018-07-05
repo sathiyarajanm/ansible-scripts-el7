@@ -3,6 +3,21 @@
 # Author: Sathiyarajan M
 # Version: 1.0
 
+
+- name: Installing elastic search in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  elasticsearch
+
+- name: Installing dhcp in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  dhcp
+
 - name: Installing docker in CentOS 7
   hosts: dbservers
   remote_user: root
@@ -45,10 +60,10 @@
   roles:
    - web
 
-- name: deploy nginx with reverse proxy in it
-  hosts: webservers
-  remote_user: root
+#- name: deploy nginx with reverse proxy in it
+#  hosts: webservers
+#  remote_user: root
 
-  roles:
-   - nginx
+#  roles:
+#   - nginx
 
