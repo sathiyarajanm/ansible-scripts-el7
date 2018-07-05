@@ -1,0 +1,26 @@
+# {{ ansible_managed }}
+#
+LoadPlugin df
+
+<Plugin df>
+{% if collectd_plugin_df_devices is defined %}
+{% for device in collectd_plugin_df_devices %}
+  Device "{{ device }}"
+{% endfor %}
+{% endif %}
+{% if collectd_plugin_df_mountpoints is defined %}
+{% for mountpoint in collectd_plugin_df_mountpoints %}
+  MountPoint "{{ mountpoint }}"
+{% endfor %}
+{% endif %}
+{% if collectd_plugin_df_fstypes is defined %}
+{% for fstype in collectd_plugin_df_fstypes %}
+  FSType "{{ fstype }}"
+{% endfor %}
+{% endif %}
+  IgnoreSelected {{ collectd_plugin_df_ignoreselected }}
+  ReportByDevice {{ collectd_plugin_df_reportbydevice }}
+  ReportInodes {{ collectd_plugin_df_reportinodes }}
+  ValuesAbsolute {{ collectd_plugin_df_valuesabsolute }}
+  ValuesPercentage {{ collectd_plugin_df_valuespercentage }}
+</Plugin>

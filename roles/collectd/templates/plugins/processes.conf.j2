@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+#
+LoadPlugin processes
+
+<Plugin processes>
+{% if collectd_plugin_processes_processes is defined %}
+{% for process in collectd_plugin_processes_processes %}
+  Process "{{ process }}"
+{% endfor %}
+{% endif %}
+{% if collectd_plugin_processes_processmatches is defined %}
+{% for processmatch in collectd_plugin_processes_processmatches %}
+  ProcessMatch {{ processmatch.name }} {{ processmatch.regex }}
+{% endfor %}
+{% endif %}
+{% if collectd_plugin_processes_collectcontextswitch is defined %}
+  CollectContextSwitch {{ collectd_plugin_processes_collectcontextswitch }}
+{% endif %}
+</Plugin>

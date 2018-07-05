@@ -1,0 +1,66 @@
+- name: Install disk plugin dependency.
+  yum:
+    name: collectd-disk
+  when:
+    - collectd_plugin_disk is defined
+    - collectd_plugin_disk
+
+- name: Install rrdtool plugin dependency.
+  yum:
+    name: "{{ item }}"
+  with_items:
+    - collectd-rrdtool
+    - rrdtool-devel
+  when:
+    - collectd_plugin_rrdtool is defined
+    - collectd_plugin_rrdtool
+
+- name: Install dns plugin dependency.
+  yum:
+    name: collectd-dns
+  when:
+    - collectd_plugin_dns is defined
+    - collectd_plugin_dns
+
+- name: Install nginx plugin dependency.
+  yum:
+    name: collectd-nginx
+  when:
+    - collectd_plugin_nginx is defined
+    - collectd_plugin_nginx
+
+- name: Install nut plugin dependency.
+  yum:
+    name: collectd-nut
+  when:
+    - collectd_plugin_nut is defined
+    - collectd_plugin_nut
+
+- name: Install redis plugin dependency.
+  yum:
+    name: collectd-redis
+  when:
+    - collectd_plugin_redis is defined
+    - collectd_plugin_redis
+    - ansible_distribution_major_version|int >= 7
+
+- name: Install virt plugin dependency.
+  yum:
+    name: collectd-virt
+  when:
+    - collectd_plugin_virt is defined
+    - collectd_plugin_virt
+
+- name: Install write_http plugin dependency.
+  yum:
+    name: collectd-write_http
+  when:
+    - collectd_plugin_write_http is defined
+    - collectd_plugin_write_http
+
+- name: Install write_prometheus plugin dependency.
+  yum:
+    name: collectd-write_prometheus
+  when:
+    - collectd_plugin_write_prometheus is defined
+    - collectd_plugin_write_prometheus

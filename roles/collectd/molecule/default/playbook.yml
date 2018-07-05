@@ -1,0 +1,45 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    #epel_state: absent
+
+    collectd_create_user: yes
+
+    collectd_plugin_logging: logfile
+
+    collectd_plugin_cgroups: true
+    collectd_plugin_contextswitch: true
+    collectd_plugin_conntrack: true
+    collectd_plugin_cpufreq: true
+    # cpusleep.so is missing from EL6
+    #collectd_plugin_cpusleep: true
+    collectd_plugin_csv: true
+    collectd_plugin_df: true
+    collectd_plugin_df_fstype:
+      - xfs
+    collectd_plugin_entropy: true
+    collectd_plugin_disk: true
+    collectd_plugin_numa: true
+    collectd_plugin_network: true
+    collectd_plugin_network_servers:
+      - host: ff18::efc0:4a42
+        port: 25826
+    collectd_plugin_processes: true
+    collectd_plugin_processes_process:
+      - collectd
+    collectd_plugin_protocols: true
+    collectd_plugin_swap: true
+    collectd_plugin_swap_reportbytes: "true"
+    collectd_plugin_unixsock: true
+    collectd_plugin_unixsock_socketgroup: root
+    collectd_plugin_uptime: true
+    collectd_plugin_users: true
+    collectd_plugin_uuid: true
+    collectd_plugin_vmem: true
+  pre_tasks:
+    - name: Install netstat for socket tests
+      package:
+        name: net-tools
+  roles:
+    - role: ansible-role-collectd

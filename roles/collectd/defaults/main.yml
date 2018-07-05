@@ -1,12 +1,294 @@
-# roles/collectd/defaults/main.yml
-# Role variables that may be changed by the administrator
+
 ---
+collectd_version: "5.7"
+collectd_create_user: no
+collectd_yum_repo_enabled: yes
 
-collectd_interval: 10
-collectd_timeout: 2
-collectd_read_threads: 5
-collectd_write_threads: 5
+collectd_global_config: /etc/collectd.conf
 
-collectd_log_level: info
+## Global Configuration
 
-collectd_web_enabled: true
+#collectd_conf_writequeuelimithigh: 1000000
+#collectd_conf_writequeuelimitlow: 800000
+
+collectd_conf_hostname: "{{ ansible_hostname }}"
+collectd_conf_fqdnlookup: "false"
+collectd_conf_basedir: /var/lib/collectd
+collectd_conf_pidfile: /var/run/collectd.pid
+collectd_conf_plugindir: /usr/lib64/collectd
+collectd_conf_typesdb: /usr/share/collectd/types.db
+
+collectd_conf_autoloadplugin: "false"
+collectd_conf_collectinternalstats: "false"
+
+collectd_conf_interval: 10
+collectd_conf_maxreadinterval: 86400
+collectd_conf_timeout: 2
+collectd_conf_readthreads: 5
+collectd_conf_writethreads: 5
+
+collectd_conf_include_dir: /etc/collectd.d
+
+#### Logging Configuration
+
+collectd_plugin_logging: syslog
+collectd_plugin_logging_directory: "/var/log/collectd"
+
+collectd_plugin_logfile_loglevel: "info"
+collectd_plugin_logfile_file: "{{ collectd_plugin_logging_directory }}/collectd.log"
+collectd_plugin_logfile_timestamp: "true"
+collectd_plugin_logfile_printseverity: "false"
+
+collectd_plugin_logstash_loglevel: "info"
+collectd_plugin_logstash_file: "{{ collectd_plugin_logging_directory }}/collectd.json.log"
+
+collectd_plugin_syslog_loglevel: "info"
+#collectd_plugin_syslog_notifylevel: ""
+
+## Plugin Configuration
+
+collectd_plugin_cgroups: false
+#collectd_plugin_cgroups_cgroup:
+# - libvirt
+collectd_plugin_cgroups_ignoreselected: "false"
+
+collectd_plugin_contextswitch: false
+collectd_plugin_conntrack: false
+collectd_plugin_cpufreq: false
+collectd_plugin_cpusleep: false
+
+collectd_plugin_cpu: true
+collectd_plugin_cpu_reportbycpu: "true"
+collectd_plugin_cpu_reportbystate: "true"
+collectd_plugin_cpu_valuespercentage: "false"
+
+collectd_plugin_csv: false
+collectd_plugin_csv_datadir: "{{ collectd_conf_basedir }}/csv"
+collectd_plugin_csv_storerates: "false"
+
+collectd_plugin_df: false
+#collectd_plugin_df_devices:
+#  - /dev/sda1
+#collectd_plugin_df_mountpoints:
+#  - 192.168.0.2:/mnt/nfs
+#collectd_plugin_df_fstypes:
+#  - ext4
+collectd_plugin_df_ignoreselected: "false"
+collectd_plugin_df_reportbydevice: "false"
+collectd_plugin_df_reportinodes: "false"
+collectd_plugin_df_valuesabsolute: "true"
+collectd_plugin_df_valuespercentage: "false"
+
+collectd_plugin_disk: false
+collectd_plugin_disk_disks:
+  - "/^[hsv]d[a-z][0-9]?$/"
+collectd_plugin_disk_ignoreselected: "false"
+#collectd_plugin_disk_usebsdname: "false"
+#collectd_plugin_disk_udevnameattr: "DEVNAME"
+
+collectd_plugin_dns: false
+#collectd_plugin_dns_interface: "eth0"
+#collectd_plugin_dns_ignoresourc: "192.168.0.1"
+collectd_plugin_dns_selectnumericquerytypes: "true"
+
+collectd_plugin_entropy: false
+
+collectd_plugin_interface: true
+collectd_plugin_interface_interfaces:
+  - "eth0"
+collectd_plugin_interface_ignoreselected: "false"
+collectd_plugin_interface_reportinactive: "true"
+#collectd_plugin_interface_uniquename: "false"
+
+collectd_plugin_load: true
+collectd_plugin_load_reportrelative: "false"
+
+collectd_plugin_md: false
+collectd_plugin_md_devices:
+  - /dev/md0
+collectd_plugin_md_ignoreselected: "false"
+
+collectd_plugin_memory: true
+collectd_plugin_memory_valuesabsolute: "true"
+collectd_plugin_memory_valuespercentage: "false"
+
+collectd_plugin_network: false
+#collectd_plugin_network_servers:
+#  - host: ff18::efc0:4a42
+#    port: 25826
+#  - block:
+#      host: 239.192.74.6
+#      port: 25826
+#      securitylevel: Encrypt
+#      username: user
+#      password: secret
+#      interface: eth0
+#      resolveinterval: 14400
+#collectd_plugin_network_timetolive: 128
+#collectd_plugin_network_listen:
+#  - host: ff18::efc0:4a42
+#    port: 25826
+#  - block:
+#      host: 239.192.74.66
+#      port: 25826
+#      securitylevel: Sign
+#      authfile: /etc/collectd/passwd
+#      interface: eth0
+#collectd_plugin_network_maxpacketsize: 1452
+#collectd_plugin_network_forward: true
+#collectd_plugin_network_reportstats: false
+#collectd_plugin_network_cacheflush: 1800
+
+collectd_plugin_notify_nagios: false
+collectd_plugin_notify_nagios_commandfile: /usr/local/nagios/var/rw/nagios.cmd
+
+collectd_plugin_nfs: false
+
+collectd_plugin_nginx: false
+collectd_plugin_nginx_url: "http://localhost/status?auto"
+#collectd_plugin_nginx_user: nginx
+#collectd_plugin_nginx_password: ""
+collectd_plugin_nginx_cacert: /etc/pki/tls/certs/ca-bundle.crt
+
+collectd_plugin_ntpd: false
+collectd_plugin_ntpd_host: ""
+collectd_plugin_ntpd_reverselookups: "false"
+collectd_plugin_ntpd_includeunitid: "true"
+
+collectd_plugin_numa: false
+
+collectd_plugin_nut: false
+collectd_plugin_nut_ups: "upsname@hostname:port"
+
+collectd_plugin_processes: false
+#collectd_plugin_processes_processes:
+#  - name
+#collectd_plugin_processes_processmatches:
+#  - name: foo
+#    regex: /foo/
+#collectd_plugin_processes_collectcontextswitch: "false"
+
+collectd_plugin_protocols: false
+collectd_plugin_protocols_values:
+  - "/^Tcp:/"
+collectd_plugin_protocols_ignoreselected: "false"
+
+collectd_plugin_redis: false
+#collectd_plugin_redis_nodes:
+#  - node: "example"
+#    host: "localhost"
+#    port: "6379"
+#    timeout: 2000
+#    queries:
+#      - query: "LLEN myqueue"
+#        type: "queue_length"
+#        instance: "myqueue"
+
+collectd_plugin_rrdtool: true
+collectd_plugin_rrdtool_datadir: "{{ collectd_conf_basedir }}/rrd"
+collectd_plugin_rrdtool_createfileasync: "false"
+collectd_plugin_rrdtool_cachetimeout: 120
+collectd_plugin_rrdtool_cacheflush: 900
+collectd_plugin_rrdtool_writepersecond: 50
+
+collectd_plugin_statsd: false
+collectd_plugin_statsd_host: "::"
+collectd_plugin_statsd_port: "8125"
+collectd_plugin_statsd_deletecounters: "false"
+collectd_plugin_statsd_deletetimers: "false"
+collectd_plugin_statsd_deletegauges: "false"
+collectd_plugin_statsd_deletesets: "false"
+collectd_plugin_statsd_countersum: "false"
+#collectd_plugin_statsd_timerpercentiles:
+#  - 90.0
+#  - 95.0
+#  - 99.0
+collectd_plugin_statsd_timerlower: "false"
+collectd_plugin_statsd_timerupper: "false"
+collectd_plugin_statsd_timersum: "false"
+collectd_plugin_statsd_timercount: "false"
+
+collectd_plugin_swap: false
+collectd_plugin_swap_reportbydevice: "false"
+collectd_plugin_swap_reportbytes: "false"
+collectd_plugin_swap_valuesabsolute: "true"
+collectd_plugin_swap_valuespercentage: "false"
+
+collectd_plugin_tcpconns: false
+collectd_plugin_tcpconns_listeningports: "false"
+#collectd_plugin_tcpconns_localport: ""
+#collectd_plugin_tcpconns_remoteport: ""
+collectd_plugin_tcpconns_allportssummary: "false"
+
+collectd_plugin_unixsock: false
+collectd_plugin_unixsock_socketfile: "/var/run/collectd-unixsock"
+collectd_plugin_unixsock_socketgroup: "collectd"
+collectd_plugin_unixsock_socketperms: "0770"
+collectd_plugin_unixsock_deletesocket: "false"
+
+collectd_plugin_uuid: false
+#collectd_plugin_uuid_uuidfile: "/etc/uuid"
+
+collectd_plugin_virt: false
+collectd_plugin_virt_connection: "qemu:///system"
+#collectd_plugin_virt_refreshinterval: "60"
+#collectd_plugin_virt_domain: "name"
+#collectd_plugin_virt_blockdevice: "name:device"
+#collectd_plugin_virt_blockdeviceformat: "target"
+#collectd_plugin_virt_blockdeviceformatbasename: "false"
+#collectd_plugin_virt_interfacedevice: "name:device"
+#collectd_plugin_virt_ignoreselected: "false"
+#collectd_plugin_virt_hostnameformat: "name"
+#collectd_plugin_virt_interfaceformat: "name"
+#collectd_plugin_virt_plugininstanceformat: "name"
+
+collectd_plugin_write_graphite: false
+#collectd_plugin_write_graphite_nodes:
+#  - node: example
+#    host: localhost
+#    port: 2003
+#    protocol: tcp
+#    reconnectinterval: 0
+#    logsenderrors: "true"
+#    prefix: "collectd"
+#    postfix: "collectd"
+#    escapecharacter: "_"
+#    storerates: "true"
+#    alwaysappendds: "false"
+#    preserveseparator: "false"
+#    dropduplicatefields: "false"
+
+collectd_plugin_write_http: false
+#collectd_plugin_write_http_nodes:
+#  - node: example
+#    url: http://example.com/collectd-post
+#    user: collectd
+#    password: foo
+#    verifypeer: "true"
+#    verifyhost: "true"
+#    cacert: /etc/pki/tls/certs/ca-bundle.crt
+#    capath: /etc/pki/tls/certs
+#    clientkey: /etc/pki/tls/certs/localhost.key
+#    clientcert: /etc/pki/tls/certs/localhost.crt
+#    clientkeypass: secret
+#    headers:
+#      - "X-Custom-Header: custom_value"
+#    sslversion: TLSv1
+#    format: Command
+#    metrics: "true"
+#    notifications: "false"
+#    storerates: "false"
+#    buffersize: 4096
+#    lowspeedlimit: 0
+#    timeout: 0
+#    loghttperror: "false"
+
+collectd_plugin_write_prometheus: false
+collectd_plugin_write_prometheus_port: "9103"
+#collectd_plugin_write_prometheus_stalenessdelta: "300"
+
+collectd_plugin_uptime: false
+collectd_plugin_users: false
+
+collectd_plugin_vmem: false
+collectd_plugin_vmem_verbose: "false"

@@ -1,15 +1,56 @@
 ---
-# CentOS 7 Stack Amsible
+# CentOS 7 Stack Ansible
 # Author: Sathiyarajan M
 # Version: 1.0
 
-
-- name: Installing elastic search in CentOS 7
+- name: Installing collectd in CentOS 7
   hosts: dbservers
   remote_user: root
 
   roles:
-   -  elasticsearch
+   -  collectd
+
+- name: Installing filebeat in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  filebeat
+
+- name: Installing heartbeat in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  heartbeat
+
+- name: Installing metricbeat in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  metricbeat
+
+- name: Installing packetbeat in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  packetbeat
+
+- name: Installing fluentd in CentOS 7
+  hosts: dbservers
+  remote_user: root
+
+  roles:
+   -  fluentd
+
+#- name: Installing elastic search in CentOS 7
+#  hosts: dbservers
+#  remote_user: root
+#
+#  roles:
+#   -  elasticsearch
 
 - name: Installing dhcp in CentOS 7
   hosts: dbservers
@@ -66,5 +107,3 @@
 
 #  roles:
 #   - nginx
-
-
