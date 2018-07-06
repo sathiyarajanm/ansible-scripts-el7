@@ -39,13 +39,13 @@
   roles:
    -  firewall
 
-- name: Installing collect-d in CentOS 7
+- name: Installing collectd in CentOS 7
+
   hosts: dbservers
   remote_user: root
 
   roles:
    -  collectd
-
 
 - name: Installing filebeat in CentOS 7
   hosts: dbservers
@@ -144,4 +144,3 @@
 
 #  roles:
 #   - nginx
-
