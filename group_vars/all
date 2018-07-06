@@ -17,3 +17,10 @@ fluentd_http_port: 9919
 fluentd_debug_port: 24230
 
 
+logstash_syslog_port: 5044
+logstash_localsyslog_port: 5000
+
+es_local_port: 9200
+es_listen_external: false
+
+syslog_listen_external: false
