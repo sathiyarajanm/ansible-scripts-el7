@@ -3,4 +3,3 @@
   service:
     name: collectd
     state: restarted
-
