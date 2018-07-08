@@ -27,3 +27,13 @@
   roles:
     -  spark
 
+- name: Installing hadoop 2.x
+  hosts: localhost
+  become: yes
+  vars:
+    namenode_ip: localhost
+    datanode_ip: localhost
+    version: '2.8.0'
+  roles:
+    - { role: 'hadoop', hadoop_master: '{{namenode_ip}}', hadoop_type_of_node: 'master', hadoop_version: '{{version}}' }
+    - { role: 'hadoop', hadoop_master: '{{datanode_ip}}', hadoop_version: '{{version}}' }
