@@ -39,7 +39,7 @@
   roles:
    -  firewall
 
-- name: Installing collectd in CentOS 7
+- name: Installing collect-d in CentOS 7
 
   hosts: dbservers
   remote_user: root
