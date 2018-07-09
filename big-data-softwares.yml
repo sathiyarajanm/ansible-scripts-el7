@@ -21,30 +21,27 @@
 #    - { role: 'hadoop', hadoop_master: '{{namenode_ip}}', hadoop_type_of_node: 'master', hadoop_version: '{{version}}' }
 #    - { role: 'hadoop', hadoop_master: '{{datanode_ip}}', hadoop_version: '{{version}}' }
 
-
-#- name: Installing elasticsearch in CentOS 7
-#  hosts: zookeeper-nodes
-#  remote_user: root
-#  roles:
-#    -  zookeeper
-
-
-#- name: Installing elasticsearch in CentOS 7
-#  hosts: dbservers
-#  remote_user: root
-#  roles:
-#    -  kafka
 - hosts: all
   user: vagrant
   sudo: true
   roles: 
     - hadoop
-
-#- name: Installing elasticsearch in CentOS 7
-#  hosts: dbservers
-#  remote_user: root
-#  roles:
-#    -  spark
+- name: Installing elasticsearch in CentOS 7
+  hosts: zookeeper-nodes
+  remote_user: root
+  roles:
+    -  zookeeper
+- name: Installing elasticsearch in CentOS 7
+  hosts: dbservers
+  remote_user: root
+  roles:
+    -  kafka
+    
+- name: Installing elasticsearch in CentOS 7
+  hosts: dbservers
+  remote_user: root
+  roles:
+    -  spark
 
 #- name: Installing hadoop 2.x
 #  hosts: localhost
