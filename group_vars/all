@@ -26,3 +26,24 @@ es_listen_external: false
 syslog_listen_external: false
 
 hadoop_master: localhost
+
+kafka_hosts: ['localhost']
+
+zookeeper_hosts: ['localhost']
+zookeeper_version: 3.4.10
+zookeeper_group: zookeeper
+zookeeper_user: zookeeper
+zookeeper_root_dir: /usr/share
+zookeeper_install_dir: '{{ zookeeper_root_dir}}/zookeeper-{{zookeeper_version}}'
+zookeeper_dir: '{{ zookeeper_root_dir }}/zookeeper'
+zookeeper_log_dir: /var/log/zookeeper
+zookeeper_data_dir: /var/lib/zookeeper
+zookeeper_data_log_dir: /var/lib/zookeeper
+zookeeper_client_port: 2181
+zookeeper_id: 1
+zookeeper_leader_port: 2888
+zookeeper_election_port: 3888
+
+
+
+
